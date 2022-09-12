@@ -55,6 +55,6 @@ jobs:
       - name: Cache/Config
         run: php artisan config:clear
       - name: Create DB and schemas
-        run: php artisan migrate:fresh --seed
+        run: php artisan migrate --seed
       - name: Execute tests and Generate clover.xml
         run: php artisan test --parallel --stop-on-failure --no-coverage

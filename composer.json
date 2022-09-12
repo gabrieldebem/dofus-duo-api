@@ -53,7 +53,8 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:models --write-mixin -D app/ -D domain/",
             "@php artisan ide-helper:meta"
-        ]
+        ],
+        "analyse": ["vendor/bin/phpstan analyse app "]
     },
     "extra": {
         "laravel": {
