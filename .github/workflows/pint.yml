@@ -1,0 +1,21 @@
+name: Run Pint 🍺
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  pint:
+    runs-on: ubuntu-latest
+    name: 🍺 Running PINT
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress
+
+      - name: Check code style
+        run: ./vendor/bin/pint --test

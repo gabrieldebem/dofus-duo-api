@@ -1,0 +1,60 @@
+name: Run Tests 🧑‍💻
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    name: 🧑‍💻 Running Tests
+    env:
+      DB_CONNECTION: mysql
+      DB_HOST: localhost
+      DB_PORT: 3306
+      DB_DATABASE: dofus_duo
+      DB_USERNAME: duo
+      DB_PASSWORD: rootroot
+    services:
+      postgres:
+        image: 'mysql/mysql-server:8.0'
+        env:
+          MYSQL_USER: duo
+          MYSQL_PASSWORD: rootroot
+          MYSQL_DB: dofus_duo
+        ports:
+          - 3306:3306/tcp
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php8-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php8-
+      - name: Setup PHP (w/ extensions) & Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          tools: composer:v2
+          extensions: dom, curl, ctype, fileinfo, gd, intl, json, libxml, mbstring, openssl, pcntl, pdo, tokenizer, xml, zip
+          coverage: pcov
+      - name: Copy ENV Laravel Configuration for CI
+        run: php -r "copy('.env.example', '.env');"
+      - name: Install dependencies
+        run: composer install --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+      - name: Generate key
+        run: php artisan key:generate
+      - name: Cache/Config
+        run: php artisan config:clear
+      - name: Create DB and schemas
+        run: php artisan migrate:fresh --seed
+      - name: Execute tests and Generate clover.xml
+        run: php artisan test --parallel --stop-on-failure --no-coverage
