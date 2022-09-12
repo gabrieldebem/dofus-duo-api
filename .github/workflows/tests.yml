@@ -34,8 +34,8 @@ jobs:
 
       - name: Prepare Laravel Application
         run: |
-          cp .env.testing .env
+          cp .env.example .env
           php artisan key:generate
 
       - name: Run Tests
-        run: php artisan test --parallel --stop-on-failure --no-coverage
+        run: vendor/bin/phpunit tests/
