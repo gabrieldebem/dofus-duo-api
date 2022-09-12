@@ -28,7 +28,7 @@ class StoreCharacterRequest extends FormRequest
     {
         return [
             'nickname' => 'required|string|max:255',
-            'level' => 'required|integer',
+            'level' => 'required|integer|min:1|max:60',
             'server' => ['required', 'string', 'max:255', new Enum(Server::class)],
             'class' => ['required', 'string', 'max:255', new Enum(CharacterClass::class)],
             'goal' => 'nullable|string|max:255',
