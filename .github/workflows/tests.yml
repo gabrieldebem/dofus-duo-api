@@ -8,6 +8,7 @@ on:
 
 jobs:
   tests:
+    name: 🧑‍💻 Running Tests
     runs-on: ubuntu-latest
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.1
@@ -36,5 +37,5 @@ jobs:
           cp .env.example .env
           php artisan key:generate
 
-      - name: Run Testsuite
-        run: vendor/bin/phpunit tests/
+      - name: Run Tests
+        run: php artisan test --parallel --stop-on-failure --no-coverage
