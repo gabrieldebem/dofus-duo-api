@@ -12,11 +12,11 @@ jobs:
     name: 🧑‍💻 Running Tests
     env:
       DB_CONNECTION: mysql
-      DB_HOST: localhost
+      DB_HOST: mysql
       DB_PORT: 3306
       DB_DATABASE: dofus_duo
-      DB_USERNAME: duo
-      DB_PASSWORD: rootroot
+      DB_USERNAME: root
+      DB_PASSWORD: password
     services:
       mysql:
         image: 'mysql/mysql-server:8.0'
@@ -24,8 +24,11 @@ jobs:
           MYSQL_USER: duo
           MYSQL_PASSWORD: rootroot
           MYSQL_DB: dofus_duo
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: test
         ports:
           - 3306:3306/tcp
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
