@@ -18,7 +18,7 @@ jobs:
       DB_USERNAME: duo
       DB_PASSWORD: rootroot
     services:
-      postgres:
+      mysql:
         image: 'mysql/mysql-server:8.0'
         env:
           MYSQL_USER: duo
