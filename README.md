@@ -1,7 +1,7 @@
 # Dofus Duo
 Dofus duo api is an api to get the best duo for you in dofus. I am really tired of playing alone so I decided to make this api to help me and all others who fell like me to find a duo partners to complete quests, UP, PVP and all about this amazing game.
 
-Soon i will be adding a web interface to make it easier to use, and publish an android and IOS app to make it easier to use on the go.
+Soon i will be adding a web interface and publish an android and IOS app to make it easier to use on the go.
 
 ## Running locally
 To run the api locally you will need to have Docker and Docker Compose installed. Then you can run the following command to start the api:
