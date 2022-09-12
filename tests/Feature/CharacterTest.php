@@ -7,14 +7,13 @@ use App\Enums\Server;
 use App\Models\Character;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CharacterTest extends TestCase
 {
     use WithFaker;
-    use RefreshDatabase;
+    use DatabaseMigrations;
 
     public function testCanCreateCharacter()
     {
