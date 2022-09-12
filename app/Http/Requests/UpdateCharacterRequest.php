@@ -25,7 +25,7 @@ class UpdateCharacterRequest extends FormRequest
     {
         return [
             'nickname' => 'nullable|string|max:255',
-            'level' => 'nullable|integer',
+            'level' => 'nullable|integer|min:1|max:200',
             'goal' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:255',
         ];

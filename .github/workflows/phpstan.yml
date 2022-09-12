@@ -1,0 +1,40 @@
+name: Run PHP Stan 🐘
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  phpstan:
+    name: 🐘 Running PHP Stan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Cache Packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php8-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php8-
+      - name: Setup PHP (w/ extensions) & Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          tools: composer:v2
+          extensions: dom, curl, ctype, fileinfo, gd, intl, json, libxml, mbstring, openssl, pcntl, pdo, tokenizer, xml, zip
+          coverage: xdebug
+      - name: Copy env file
+        run: php -r "copy('.env.example', '.env');"
+      - name: Install dependencies
+        run: composer install --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+      - name: Generate key
+        run: php artisan key:generate
+      - name: Cache config
+        run: php artisan config:clear
+      - name: Execute static analysis
+        run: composer analyse

@@ -14,11 +14,13 @@
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",
+        "brianium/paratest": "^6.6",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
+        "phpstan/phpstan": "^1.8",
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ignition": "^1.0"
     },
@@ -52,7 +54,8 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:models --write-mixin -D app/ -D domain/",
             "@php artisan ide-helper:meta"
-        ]
+        ],
+        "analyse": ["vendor/bin/phpstan analyse app "]
     },
     "extra": {
         "laravel": {
