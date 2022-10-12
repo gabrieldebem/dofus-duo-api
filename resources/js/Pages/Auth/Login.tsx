@@ -1,5 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
+// @ts-ignore
 import logo from "../../../../public/images/logo.png";
+// @ts-ignore
 import dofuscommunity from "../../../../public/images/dofus-community.jpg";
 import TextInput from "../../Components/TextInput";
 import InputLabel from "../../Components/InputLabel";
@@ -7,13 +9,29 @@ import Checkbox from "../../Components/Checkbox";
 import PrimaryButton from "../../Components/PrimaryButton";
 import {SecondaryButton} from "../../Components/SecondaryButton";
 import Link from "../../Components/Link";
+import {Auth} from "../../ApiClient/Types";
+import {authenticate} from "../../ApiClient/Client";
+import * as path from "path";
 
-export default function Example() {
+export default function Login() {
+    const [auth, setAuth] = useState<Auth>({
+        email: '',
+        password: '',
+    });
+
+    function handleAuth() {
+        authenticate(auth)
+            .then((response) => {
+                console.log('success');
+                console.log(response);
+            })
+    }
+
+
     return (
         <>
             <div className="flex min-h-screen">
                 <div className="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-                    <Link href={'/'} className="mb-4 text-emerald-600" children={'Voltar'} />
                     <div className="mx-auto w-full max-w-sm lg:w-96">
                         <div>
                             <img
@@ -24,7 +42,7 @@ export default function Example() {
                             <h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900">Acesse sua conta</h2>
                             <p className="mt-2 text-sm text-gray-600">
                                 Ou{' '}
-                                <a href="#" className="font-medium text-emerald-600 hover:text-emerald-500">
+                                <a href="/register" className="font-medium text-emerald-600 hover:text-emerald-500">
                                     comece seu período de teste gratuito
                                 </a>
                             </p>
@@ -38,10 +56,12 @@ export default function Example() {
                                         <TextInput
                                             type={'email'}
                                             name={'email'}
+                                            value={auth.email}
                                             className={'block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none sm:text-sm mt-1'}
                                             autoComplete={'email'}
                                             required={true}
                                             placeholder={'Seu melhor email'}
+                                            handleChange={(e) => setAuth({...auth, email: e.target.value})}
                                         />
                                     </div>
 
@@ -50,10 +70,12 @@ export default function Example() {
                                         <TextInput
                                             type={'password'}
                                             name={'password'}
+                                            value={auth.password}
                                             autoComplete={'current-password'}
                                             required={true}
                                             className={'mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none sm:text-sm'}
                                             placeholder={'Sua senha'}
+                                            handleChange={(e) => setAuth({...auth, password: e.target.value})}
                                         />
                                     </div>
 
@@ -67,16 +89,12 @@ export default function Example() {
                                             <Link href={'#'} children={'Esqueceu sua senha?'} className={'font-medium text-emerald-600 hover:text-emerald-500'} />
                                         </div>
                                     </div>
-                                    <PrimaryButton
-                                        type={"submit"}
-                                        children={'Acessar'}
-                                        className={'h-5'}
-                                    />
-                                    <SecondaryButton
-                                        type={"button"}
-                                        children={'Cadastar-se'}
-                                        className={'h-5'}
-                                    />
+                                    <PrimaryButton type={"submit"} className={'h-5'} onClick={handleAuth}>
+                                        Acessar
+                                    </ PrimaryButton>
+                                    <SecondaryButton type={"button"} className={'h-5'} >
+                                        Cadastar-se
+                                    </SecondaryButton>
                                 </form>
                             </div>
                         </div>
